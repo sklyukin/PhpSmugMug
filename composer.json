@@ -1,18 +1,22 @@
 {
   "name": "sklyukin/php_smugmug",
+  "type": "library",
   "description": "SmugMug API 2.0 php library",
   "license": "MIT",
   "keywords": [
     "php",
     "SmugMug"
   ],
+  "homepage": "https://github.com/sklyukin/PhpSmugMug",
   "authors": [
     {
       "name": "Stanislav Klyukin",
       "email": "stanislav@klyukin.net"
     }
   ],
-  "require": {},
+  "require": {
+    "php": ">= 5.4.0"
+  },
   "require-dev": {
     "phpunit/phpunit": "4.0.*"
   },
