@@ -68,6 +68,9 @@ class SmugMug
         curl_setopt($crl, CURLOPT_URL, $url);
         $response = curl_exec($crl);
         $this->httpCode = curl_getinfo($crl, CURLINFO_HTTP_CODE);
+        if ($this->httpCode != 200) {
+            throw new SmugMugException(json_decode($response, true)['Message'], $this->httpCode);
+        }
         $this->httpInfo = array_merge($this->httpInfo, curl_getinfo($crl));
         if (curl_errno($crl) && $this->throwCurlErrors === true) {
             throw new SmugMugException(curl_error($crl), curl_errno($crl));
