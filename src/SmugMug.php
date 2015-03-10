@@ -3,6 +3,9 @@ namespace sklyukin\PhpSmugMug;
 
 class SmugMug
 {
+    const DEFAULT_PAGE_SIZE = 50;
+    const API_URL = 'http://api.smugmug.com/api/v2/';
+
     public $apiKey;
     /** @var integer Set timeout default. */
     public $timeout = 30;
@@ -25,19 +28,30 @@ class SmugMug
     /** @var string Set the useragent */
     private $userAgent = 'PHP SmugMug';
 
-    const API_URL = 'http://api.smugmug.com/api/v2/';
-
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
     }
 
 
-    public function albums($username, $count = 50, $start = 0)
+    public function userAlbums($username, $count = self::DEFAULT_PAGE_SIZE, $start = 0)
     {
         return $this->request('user/' . $username . '!albums', ['count' => $count, 'start' => $start]);
     }
 
+    public function albumImages($albumKey, $count = self::DEFAULT_PAGE_SIZE, $start = 0)
+    {
+        return $this->album($albumKey, 'images', $count, $start);
+    }
+
+    public function album($albumKey, $action = null, $count = self::DEFAULT_PAGE_SIZE, $start = 0)
+    {
+        $uri = 'album/' . $albumKey;
+        if ($action) {
+            $uri .= "!$action";
+        }
+        return $this->request($uri, ['count' => $count, 'start' => $start]);
+    }
 
     private function request($uri, $params, $method = 'GET', $postFields = null)
     {
