@@ -56,13 +56,13 @@ class SmugMug
     private function request($uri, $params, $method = 'GET', $postFields = null)
     {
         $url = self::API_URL . $uri . $this->buildQueryString(array_merge($params, ['APIKey' => $this->apiKey]));
+        $url.= '&_accept=application%2Fjson';
         $this->httpInfo = [];
         $crl = curl_init();
         curl_setopt($crl, CURLOPT_USERAGENT, $this->userAgent);
         curl_setopt($crl, CURLOPT_CONNECTTIMEOUT, $this->connectTimeout);
         curl_setopt($crl, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($crl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($crl, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Host: fishska.com']);
         curl_setopt($crl, CURLOPT_HEADERFUNCTION, [$this, 'getHeader']);
         curl_setopt($crl, CURLOPT_HEADER, false);
         curl_setopt($crl, CURLOPT_URL, $url);
